@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#2B303B"/>
+  <path d="M14 14 h22 v6 l-16 0 z" fill="#F05A22"/>
+  <text x="32" y="44" font-family="Arial, sans-serif" font-size="26" font-weight="800" fill="#ffffff" text-anchor="middle">BEC</text>
+</svg>
