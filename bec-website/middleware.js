@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import { i18n } from "./lib/i18n-config";
 
-// Redirects any URL without a language prefix to the default language.
+// Supported languages (kept here directly so this file has no imports to resolve).
+const LOCALES = ["en", "ar"];
+const DEFAULT_LOCALE = "en";
+
+// Redirects any URL without a language prefix to a language.
 // e.g.  /about  ->  /en/about      /  ->  /en
 export function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -16,16 +19,14 @@ export function middleware(request) {
   }
 
   // Does the path already start with a supported language?
-  const hasLocale = i18n.locales.some(
+  const hasLocale = LOCALES.some(
     (loc) => pathname === `/${loc}` || pathname.startsWith(`/${loc}/`)
   );
   if (hasLocale) return NextResponse.next();
 
-  // Try to honour the visitor's browser language, otherwise use the default
+  // Honour the visitor's browser language if it's Arabic, otherwise default.
   const accept = request.headers.get("accept-language") || "";
-  const preferred = accept.toLowerCase().startsWith("ar")
-    ? "ar"
-    : i18n.defaultLocale;
+  const preferred = accept.toLowerCase().startsWith("ar") ? "ar" : DEFAULT_LOCALE;
 
   const url = request.nextUrl.clone();
   url.pathname = `/${preferred}${pathname === "/" ? "" : pathname}`;
